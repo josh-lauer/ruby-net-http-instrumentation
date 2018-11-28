@@ -1,20 +1,16 @@
 require "net/http/tracer/version"
+require "thread"
 
 module Net
-  module HTTP
+  module Http
     module Tracer
 
       class << self
 
-        attr_reader :tracer_url
+        attr_accessor :ignore_request
 
-        def instrument
-          begin
-            @tracer_url = URI.parse(ENV['TRACER_INGEST_URL'])
-          rescue
-            puts "Tracer ingest URL not provided"
-            @tracer_url = URI.new
-          end
+        def instrument(ignore_request: nil)
+          @ignore_request = ignore_request
 
           patch_request
         end
@@ -27,8 +23,9 @@ module Net
             def request(req, body = nil, &block)
               res = ''
 
-              if ingest_path?(req)
-                # this is probably a request to export spans, so we should ignore it
+              if ::Net::Http::Tracer.ignore_request.respond_to?(:call) &&
+                 ::Net::Http::Tracer.ignore_request.call
+
                 res = request_original(req, body, &block)
               else
                 tags = {
@@ -39,7 +36,7 @@ module Net
                   "peer.host" => @address,
                   "peer.port" => @port,
                 }
-                OpenTracing.global_tracer.start_active_span("#{req.method} #{req.path}", tags: tags) do |scope|
+                OpenTracing.global_tracer.start_active_span("net_http.request", tags: tags) do |scope|
                   # inject the trace so it's available to the remote service
                   OpenTracing.inject(scope.span.context, OpenTracing::FORMAT_RACK, req)
 
@@ -53,15 +50,6 @@ module Net
               end
 
               res
-            end
-
-            # Make a best effort to see if this is going out to the ingest url
-            # Compare path, address, and port
-            def ingest_path?(req)
-              
-              return "#{Tracer.tracer_url.path}?#{Tracer.tracer_url.query}" == req.path && # this should short circuit in most cases
-                Tracer.tracer_url.host == @address &&
-                Tracer.tracer_url.port == @port
             end
           end
         end

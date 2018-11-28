@@ -1,8 +1,6 @@
 # Net::Http::Tracer
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/net/http/tracer`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem automatically traces all requests made with Net::HTTP.
 
 ## Installation
 
@@ -22,7 +20,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Set an OpenTracing-compatible tracer, such as ['jaeger-client'](https://github.com/signalfx/jaeger-client-ruby), as the global tracer.
+
+Before making any requests, configure the tracer:
+
+```ruby
+require 'net/http/tracer'
+
+Net::Http::Tracer.instrument
+```
+
+The spans will be given a name consisting of the HTTP method and request path.
 
 ## Development
 
@@ -32,7 +40,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/net-http-tracer.
+Bug reports and pull requests are welcome on GitHub at https://github.com/signalfx/net-http-tracer.
 
 ## License
 

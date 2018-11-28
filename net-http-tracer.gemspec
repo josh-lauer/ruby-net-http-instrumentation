@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["achandrasekar@signalfx.com"]
 
   spec.summary       = %q{Tracer for Net::HTTP requests.}
-  spec.homepage      = "http://github.com/achandras/net-http-tracer"
+  spec.homepage      = "http://github.com/signalfx/net-http-tracer"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "opentracing_test_tracer", "~> 0.1"
+  spec.add_development_dependency "webmock", "~> 3.4.2"
 
-  spec.add_dependency "opentracing", "~> 0.4.2"
 end
