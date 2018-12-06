@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'net/http/tracer'
+require 'net/http/instrumentation'
 
-RSpec.describe Net::Http::Tracer do
+RSpec.describe Net::Http::Instrumentation do
   describe "Class Methods" do
     it { should respond_to :instrument }
     it { should respond_to :patch_request }
@@ -12,7 +12,7 @@ RSpec.describe Net::Http::Tracer do
     before(:context) do
       OpenTracing.global_tracer = OpenTracingTestTracer.build
 
-      Net::Http::Tracer.instrument
+      Net::Http::Instrumentation.instrument
     end
 
     after(:example) do

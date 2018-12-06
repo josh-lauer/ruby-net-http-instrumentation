@@ -1,9 +1,9 @@
-require "net/http/tracer/version"
+require "net/http/instrumentation/version"
 require "thread"
 
 module Net
   module Http
-    module Tracer
+    module Instrumentation
 
       class << self
 
@@ -23,8 +23,8 @@ module Net
             def request(req, body = nil, &block)
               res = ''
 
-              if ::Net::Http::Tracer.ignore_request.respond_to?(:call) &&
-                 ::Net::Http::Tracer.ignore_request.call
+              if ::Net::Http::Instrumentation.ignore_request.respond_to?(:call) &&
+                 ::Net::Http::Instrumentation.ignore_request.call
 
                 res = request_original(req, body, &block)
               else

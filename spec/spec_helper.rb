@@ -1,5 +1,5 @@
 require 'bundler/setup'
-require 'net/http/tracer'
+require 'net/http/instrumentation'
 require 'opentracing_test_tracer'
 require 'webmock/rspec'
 
