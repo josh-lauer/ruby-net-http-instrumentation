@@ -2,6 +2,10 @@
 
 This gem automatically traces all requests made with Net::HTTP.
 
+## Supported Versions
+
+- MRI Ruby 2.0 and newer
+
 ## Installation
 
 Add this line to your application's Gemfile:
