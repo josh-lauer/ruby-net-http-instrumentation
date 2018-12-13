@@ -11,7 +11,7 @@ This gem automatically traces all requests made with Net::HTTP.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'net-http-tracer'
+gem 'nethttp-tracer'
 ```
 
 And then execute:
@@ -20,7 +20,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install net-http-tracer
+    $ gem install nethttp-tracer
 
 ## Usage
 
