@@ -4,12 +4,12 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "net/http/instrumentation/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "net-http-instrumentation"
+  spec.name          = "nethttp-instrumentation"
   spec.version       = Net::Http::Instrumentation::VERSION
   spec.authors       = ["Ashwin Chandrasekar"]
   spec.email         = ["achandrasekar@signalfx.com"]
 
-  spec.summary       = %q{Instrumentation for Net::HTTP requests.}
+  spec.summary       = %q{OpenTracing Instrumentation for Net::HTTP requests.}
   spec.homepage      = "http://github.com/signalfx/ruby-net-http-instrumentation"
   spec.license       = "MIT"
 
