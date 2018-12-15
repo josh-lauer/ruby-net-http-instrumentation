@@ -7,10 +7,11 @@ module Net
 
       class << self
 
-        attr_accessor :ignore_request
+        attr_accessor :ignore_request, :tracer
 
-        def instrument(ignore_request: nil)
+        def instrument(tracer: OpenTracing.global_tracer, ignore_request: nil)
           @ignore_request = ignore_request
+          @tracer = tracer
 
           patch_request
         end
@@ -36,7 +37,7 @@ module Net
                   "peer.host" => @address,
                   "peer.port" => @port,
                 }
-                OpenTracing.global_tracer.start_active_span("net_http.request", tags: tags) do |scope|
+                ::Net::Http::Instrumentation.tracer.start_active_span("net_http.request", tags: tags) do |scope|
                   # inject the trace so it's available to the remote service
                   OpenTracing.inject(scope.span.context, OpenTracing::FORMAT_RACK, req)
 
