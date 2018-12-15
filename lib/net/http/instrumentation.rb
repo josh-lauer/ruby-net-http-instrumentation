@@ -13,7 +13,20 @@ module Net
           @ignore_request = ignore_request
           @tracer = tracer
 
-          patch_request
+          patch_request if !@instrumented
+          @instrumented = true
+        end
+
+        def remove
+          return if !@instrumented
+
+          ::Net::HTTP.module_eval do
+            remove_method :request
+            alias_method :request, :request_original
+            remove_method :request_original
+          end
+
+          @instrumented = false
         end
 
         def patch_request
