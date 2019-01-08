@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{OpenTracing Instrumentation for Net::HTTP requests.}
   spec.homepage      = "http://github.com/signalfx/ruby-net-http-instrumentation"
-  spec.license       = "MIT"
+  spec.license       = "Apache-2.0"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
