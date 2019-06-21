@@ -34,10 +34,10 @@ require 'net/http/instrumentation'
 Net::Http::Instrumentation.instrument
 ```
 
-`instrument` takes two parameters:
+`instrument` takes optional parameters:
 - `tracer`: the OpenTracing tracer to use to trace requests. Default: OpenTracing.global_tracer
 - `ignore_request`: a bool or block to determine whether or not a given request
-  should be traced.
+- `status_code_errors`: an array of `Net::HTTPResponse` classes that should have error tags added. Default: `[ ::Net::HTTPServerError ]`
 
 `ignore_requests` should be configured to avoid tracing requests from the tracer
 if it uses Net::HTTP to send spans. For example:
@@ -66,7 +66,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/signalfx/net-http-instrumentation.
+Bug reports and pull requests are welcome on GitHub at https://github.com/opentracing-contrib/net-http-instrumentation.
 
 ## License
 

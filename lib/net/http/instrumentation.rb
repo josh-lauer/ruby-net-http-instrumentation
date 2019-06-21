@@ -7,11 +7,14 @@ module Net
 
       class << self
 
-        attr_accessor :ignore_request, :tracer
+        attr_accessor :ignore_request, :tracer, :status_codes
 
-        def instrument(tracer: OpenTracing.global_tracer, ignore_request: nil)
+        def instrument(tracer: OpenTracing.global_tracer,
+                       ignore_request: nil,
+                       status_code_errors: [ ::Net::HTTPServerError ])
           @ignore_request = ignore_request
           @tracer = tracer
+          @status_codes = status_code_errors
 
           patch_request if !@instrumented
           @instrumented = true
@@ -59,7 +62,7 @@ module Net
 
                   # set response code and error if applicable
                   scope.span.set_tag("http.status_code", res.code)
-                  scope.span.set_tag("error", true) if res.is_a?(::Net::HTTPClientError)
+                  scope.span.set_tag("error", true) if ::Net::Http::Instrumentation.status_codes.any? { |e| res.is_a? e }
                 end
               end
 
