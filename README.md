@@ -36,7 +36,7 @@ Net::Http::Instrumentation.instrument
 
 `instrument` takes optional parameters:
 - `tracer`: the OpenTracing tracer to use to trace requests. Default: OpenTracing.global_tracer
-- `ignore_request`: a bool or block to determine whether or not a given request
+- `ignore_request`: a bool or block to determine whether or not a given request.  Takes request object as a parameter to the block
 - `status_code_errors`: an array of `Net::HTTPResponse` classes that should have error tags added. Default: `[ ::Net::HTTPServerError ]`
 
 `ignore_requests` should be configured to avoid tracing requests from the tracer
@@ -48,7 +48,7 @@ Thread.current[:http_sender_thread] = true
 ...
 
 # configure the instrumentation
-Net::Http::Instrumentation.instrument(ignore_request: -> { Thread.current[:http_sender_thread] })
+Net::Http::Instrumentation.instrument(ignore_request: -> (req) { Thread.current[:http_sender_thread] })
 ```
 
 To remove instrumentation:
