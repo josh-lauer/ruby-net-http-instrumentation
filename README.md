@@ -48,7 +48,7 @@ Thread.current[:http_sender_thread] = true
 ...
 
 # configure the instrumentation
-Net::Http::Instrumentation.instrument(ignore_request: -> (req) { Thread.current[:http_sender_thread] })
+Net::Http::Instrumentation.instrument(ignore_request: -> (host, req) { Thread.current[:http_sender_thread] })
 ```
 
 To remove instrumentation:
